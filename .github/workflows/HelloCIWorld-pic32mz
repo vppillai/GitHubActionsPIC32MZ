@@ -1,0 +1,19 @@
+name: HelloCIWorld-pic32mz
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: clean
+      run: make SHELL=bash MKDIR="mkdir -p" PATH_TO_IDE_BIN="/opt/microchip/mplabx/v5.35/mplab_platform/platform/../mplab_ide/modules/../../bin/" PATH:="/opt/microchip/mplabx/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/":"/opt/microchip/xc32/v2.30/bin/":$PATH OS_CURRENT="$(uname -s)" MP_JAVA_PATH="/opt/microchip/mplabx/v5.30/sys/java/jre1.8.0_181/bin/" MP_CC="/opt/microchip/xc32/v2.30/bin/xc32-gcc" MP_CPPC="/opt/microchip/xc32/v2.30/bin/xc32-g++" MP_AS="/opt/microchip/xc32/v2.30/bin/xc32-as" MP_LD="/opt/microchip/xc32/v2.30/bin/xc32-ld" MP_AR="/opt/microchip/xc32/v2.30/bin/xc32-ar" DEP_GEN="${MP_JAVA_PATH}java -jar /opt/microchip/mplabx/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar" MP_CC_DIR="/opt/microchip/xc32/v2.30/bin/" MP_CPPC_DIR="/opt/microchip/xc32/v2.30/bin/" MP_AS_DIR="/opt/microchip/xc32/v2.30/bin/" MP_LD_DIR="/opt/microchip/xc32/v2.30/bin/" MP_AR_DIR="/opt/microchip/xc32/v2.30/bin/" DFP_DIR="/opt/microchip/mplabx/v5.30/packs/Microchip/PIC32MZ-EF_DFP/1.1.45" clean
+    - name: make
+      run: make SHELL=bash MKDIR="mkdir -p" PATH_TO_IDE_BIN="/opt/microchip/mplabx/v5.35/mplab_platform/platform/../mplab_ide/modules/../../bin/" PATH:="/opt/microchip/mplabx/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/":"/opt/microchip/xc32/v2.30/bin/":$PATH OS_CURRENT="$(uname -s)" MP_JAVA_PATH="/opt/microchip/mplabx/v5.30/sys/java/jre1.8.0_181/bin/" MP_CC="/opt/microchip/xc32/v2.30/bin/xc32-gcc" MP_CPPC="/opt/microchip/xc32/v2.30/bin/xc32-g++" MP_AS="/opt/microchip/xc32/v2.30/bin/xc32-as" MP_LD="/opt/microchip/xc32/v2.30/bin/xc32-ld" MP_AR="/opt/microchip/xc32/v2.30/bin/xc32-ar" DEP_GEN="${MP_JAVA_PATH}java -jar /opt/microchip/mplabx/v5.30/mplab_platform/platform/../mplab_ide/modules/../../bin/extractobjectdependencies.jar" MP_CC_DIR="/opt/microchip/xc32/v2.30/bin/" MP_CPPC_DIR="/opt/microchip/xc32/v2.30/bin/" MP_AS_DIR="/opt/microchip/xc32/v2.30/bin/" MP_LD_DIR="/opt/microchip/xc32/v2.30/bin/" MP_AR_DIR="/opt/microchip/xc32/v2.30/bin/" DFP_DIR="/opt/microchip/mplabx/v5.30/packs/Microchip/PIC32MZ-EF_DFP/1.1.45"  -j4 -C HelloCIWorld/firmware/HelloCIWorld.X
+    - uses: actions/upload-artifact@v1
+      with:
+        name: noEthBuild_${{ github.run_id }}.${{ github.run_number }}_${{ github.sha }}.zip
+        path: HelloCIWorld/firmware/HelloCIWorld.X/dist/HelloCIWorld/production
